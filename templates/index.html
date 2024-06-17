@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>天気予報</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #4682b4;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        label {
+            margin-right: 10px;
+        }
+        select {
+            padding: 5px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 5px 10px;
+            background-color: #4682b4;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #5a9bd5;
+        }
+        .weather-forecast-container {
+            text-align: center;
+        }
+        .weather-forecast {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .weather-forecast div {
+            text-align: center;
+            margin: 10px;
+            padding: 10px;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .weather-forecast img {
+            margin-top: 5px;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ area_name }}の天気予報</h1>
+    <form method="POST">
+        <label for="options">入力欄</label>
+        <select name="options" id="options">
+            {% for option in options %}
+            <option value="{{ option }}">{{ option }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">検索</button>
+    </form>
+
+    {% if error_message %}
+        <div class="error">{{ error_message }}</div>
+    {% else %}
+        <div class="weather-forecast-container">
+            <h2>一週間の天気</h2>
+            <div class="weather-forecast">
+                {% for code in weatherCodes %}
+                    {% if code != none %}
+                        <div>
+                            <p>{{ date[loop.index0] }}</p>
+                            <img src="https://www.jma.go.jp/bosai/forecast/img/{{code}}.svg" width="80" height="60">
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+</body>
+</html>
